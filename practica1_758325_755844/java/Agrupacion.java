@@ -32,14 +32,21 @@ public class Agrupacion<T> implements Iterable<T>
 
 	public boolean anyadir(T t) 
 	{
-		//TODO: Rellena el código de este método para que anyada un elemento a la agrupacion
-		//y devuelva si ha sido posible (o no) meterlo.
+		boolean sePuede = total < MAX;
+		if(sePuede) {
+			datos[total] = t;
+			total++;
+		}
+		return sePuede;
 	}
 
 	public boolean borrarUltimo()
 	{
-		//TODO: Rellena el código de este método para que borre el último elemento de la agrupación
-		//y devuelva si ha sido posible (o no) borrarlo.
+		boolean sePuede = total > 0;
+		if(sePuede) {
+			total--;
+		}
+		return sePuede;
 	}
 
 	//Esta clase representa a un iterador sobre la agrupación. De nuevo, por el comportamiento estándar de los
@@ -61,7 +68,7 @@ public class Agrupacion<T> implements Iterable<T>
 		//si hay siguiente elemento (o no).
 		public boolean hasNext()	
 		{
-			//TODO: Devuelve si hay siguiente elemento o no.
+			return i>=0;
 		}
 
 		//Todos los iteradores deben de implementar un método que devuelva el elemento
@@ -73,7 +80,9 @@ public class Agrupacion<T> implements Iterable<T>
 			//Aquí lanzamos la excepción
 			if (!hasNext()) throw new NoSuchElementException();
 			else {
-				//TODO: Devuelve el elemento apuntado por el iterador, y avanza el iterador.
+				T t = ag.datos[i];
+				i--;
+				return t;
 			}
 		}
 
