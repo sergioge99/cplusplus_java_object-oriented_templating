@@ -15,12 +15,12 @@ private:
 
 public:
 //	Ahora la funcion iniciar de la estructura es el constructor. 
-	agrupacion() 
+	agrupacion() total(0):
 	        //TODO: Invoca a los constructores de los miembros privados (o deja
 		//que se construyan por defecto si lo consideras necesario).
 		//Separados por comas (si no sabes cómo hacerlo, mira cómo está hecho
-		//en la clase const_iterator)	
-		
+		//en la clase const_iterator)
+
        	{  
 		//Si invocas a los constructores de los miembros privados no necesitas rellenar el código del constructor.
 	}
