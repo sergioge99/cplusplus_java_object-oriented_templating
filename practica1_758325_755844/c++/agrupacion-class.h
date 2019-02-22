@@ -15,13 +15,14 @@ private:
 
 public:
 //	Ahora la funcion iniciar de la estructura es el constructor. 
-	agrupacion() total(0):
-	        //TODO: Invoca a los constructores de los miembros privados (o deja
+	agrupacion(): total(0)
+	{ 
+	    //TODO: Invoca a los constructores de los miembros privados (o deja
 		//que se construyan por defecto si lo consideras necesario).
 		//Separados por comas (si no sabes cómo hacerlo, mira cómo está hecho
 		//en la clase const_iterator)
 
-       	{  
+       	 
 		//Si invocas a los constructores de los miembros privados no necesitas rellenar el código del constructor.
 	}
 
@@ -29,13 +30,20 @@ public:
 //	y métodos de la propia clase, deberás hacerlo a través del puntero this->
 	bool anyadir(const T& p)
 	{
-
+		bool sePuede = total < MAX;
+		if(sePuede)	{
+			datos[total] = p;
+			total++;
+		}
+		return sePuede;
 	}
 
 //	TODO: La funcion borrarUltimo se transforma tambien en un metodo. Rellénalo.
 	bool borrarUltimo()
 	{
-
+		bool sePuede = total > 0;
+		if(sePuede)	total--;
+		return sePuede;
 	}
 
 	//Declarando la clase const_iterator (iterador constante) como friend y como
@@ -64,6 +72,7 @@ public:
 			//TODO: Rellena este hueco para que el iterador sobre la agrupación avance. Recuerda
 			//que en nuestra definición de agrupación la estructura se recorre desde el último
 			//elemento introducido hasta el primero (como si se tratara de una pila).  
+			if(i>=0) i--;
 			return (*this);
 	       	}
 
@@ -71,7 +80,8 @@ public:
 		//Representa la obtención de lo apuntado por el iterador.
 		const T& operator*()   const 
 		{
-			//TODO: Rellena este método para que devuelva el elemento T al que está apuntando el iterador.	
+			//TODO: Rellena este método para que devuelva el elemento T al que está apuntando el iterador.
+			return c.datos[i];	
 		} 
 
 
@@ -84,6 +94,7 @@ public:
 		{ 
 			//TODO: Rellenar este método para devuelva true si este iterador y el iterador "that" apuntan
 			//a sitios diferentes, y false en caso contrario. 
+			return i != that.i;
 		}		
 
 	};
