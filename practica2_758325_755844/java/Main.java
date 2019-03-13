@@ -4,6 +4,7 @@ public class Main
 	//a declarar los dos metodos siguientes: 
 	//public static void anyadir_elementos(AgrupacionEstatica<Integer> ag)
 	//public static void anyadir_elementos(AgrupacionDinamica<Integer> ag)
+	public static void anyadir_elementos(Agrupacion<Integer> ag)
 	{
 		ag.anyadir(42);
 		ag.anyadir(15);
@@ -15,6 +16,7 @@ public class Main
 	//a declarar los dos metodos siguientes: 
 	//public static void mostrar_elementos(AgrupacionEstatica<Integer> ag)
 	//public static void mostrar_elementos(AgrupacionDinamica<Integer> ag)
+	public static void mostrar_elementos(Agrupacion<Integer> ag)
 	{
 		for (Integer i : ag) 
 			System.out.print(i+" ");

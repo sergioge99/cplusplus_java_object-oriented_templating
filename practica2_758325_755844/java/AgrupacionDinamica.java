@@ -12,7 +12,7 @@ import java.lang.UnsupportedOperationException;
 //Para hacer uso de iteradores, implementamos el interfaz Iterable<T>. Esto es un mecanismo
 //básico de la herencia en Java que es inevitable en este caso y sobre el que hablaremos
 //más adelante en clase de teoría.
-public class AgrupacionDinamica<T> implements Iterable<T>
+public class AgrupacionDinamica<T> implements Agrupacion<T>
 {
 	private class Nodo<T>
 	{
