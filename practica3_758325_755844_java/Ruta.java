@@ -19,23 +19,40 @@ public class Ruta
 		}
 	}
 	void stat(String s){
-		Directorio d = rutaActiva.getLast();
-		int k=d.contenido.size();
+		String[] v=s.split("/");
+		int vn = v.length;
 		if(s.substring(0,1).equals("/")){
-			//tratar ruta completa, split, acceder directorio a directorio hasta el final , ver si existe el elemento y devolver el tamaño
-		}
-		else{
+			Directorio r = rutaActiva.getFirst();
+			boolean existe=true;
 			int i=0;
-			boolean encontrado=false;
-			while(i<k & !encontrado){
-				if(d.contenido.get(i).getName().equals(s)){
-					System.out.print(d.contenido.get(i).getSize());
-					System.out.println();
-					encontrado=true;
+			while(i<vn && existe){
+				Directorio r = r.existe_name(v[i]);
+				if(r==null){
+					existe=false;
 				}
 				else{
 					i++;
 				}
+			}
+			if(existe){
+				System.out.print(r.tamanyo);
+			}
+			
+		else{
+			Directorio r = rutaActiva.getLast();
+			boolean existe=true;
+			int i=0;
+			while(i<vn && existe){
+				Directorio r = r.existe_name(v[i]);
+				if(r==null){
+					existe=false;
+				}
+				else{
+					i++;
+				}
+			}
+			if(existe){
+				System.out.print(r.tamanyo);
 			}
 		}
 		
