@@ -1,15 +1,26 @@
 //Similar a los includes de C++, traemos aquellas clases que nos seran utiles
-import java.util.LinkedList;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.lang.UnsupportedOperationException;
+import java.util.*;
+import java.lang.*;
 
 public class Ruta
 {
 	LinkedList<Directorio> rutaActiva = new LinkedList<Directorio>();
 	public Ruta(Directorio raiz){
-		rutaActiva.add(raiz);
+		rutaActiva.addFirst(raiz);
 	}
+
+	public String pwd() {
+		int n = rutaActiva.size();
+		String ruta= "/";
+		if(n>1) {
+			for(int i=1;i<=n;i++) {
+				Directorio dir=rutaActiva.get(i);
+				ruta=ruta + dir.getName() + "/";
+			 }
+		}
+		return ruta;
+	}
+
 	public void ls(){
 		Directorio d = rutaActiva.getLast();
 		int k=d.contenido.size();
@@ -18,6 +29,48 @@ public class Ruta
 			System.out.println();
 		}
 	}
+
+	public void cd(String path) {
+		if(!path.equals(".")) {
+			if(path.equals("..") ) {
+				Directorio eliminar=rutaActiva.removeLast();
+			}
+			else if(path.equals("/")) {
+				Directorio raiz = rutaActiva.getFirst();
+				rutaActiva.clear();
+				rutaActiva.addFirst(raiz);
+			}else if(path.charAt(0) == '/'){	//Ruta completa
+				//Descomponemos path en un array de strings
+				String[] nueva_ruta = path.split("/");
+				int nDirectorios=nueva_ruta.length;
+				Directorio ultimo = rutaActiva.getFirst();
+				//Borramos la ruta activa para sustituirla por la nueva
+				rutaActiva.clear();
+				//Anyadimos raiz
+				rutaActiva.addFirst(ultimo); 
+				Elemento nuevo = ultimo.existe_name(nueva_ruta[1]);
+				int i=1;
+				//Compruebo que nuevo es un elemento
+				while( (nuevo != null) && (nuevo instanceof Directorio) && (i<nDirectorios)){
+					//Creo directorio nuevo
+					Directorio nuevo2 = (Directorio)nuevo;
+					rutaActiva.add(i,nuevo2);
+					i++;
+					ultimo=nuevo2;
+					//Creo otro directorio
+					nuevo = ultimo.existe_name(nueva_ruta[i]);
+				}
+			}else{		//Directorio nuevo
+				Directorio ultimo = rutaActiva.getLast();
+				Elemento nuevo = ultimo.existe_name(path);
+				if ((nuevo != null) && (nuevo instanceof Directorio)){
+					Directorio nuevo2 = (Directorio)nuevo;
+					rutaActiva.addLast(nuevo2);
+				}
+			}
+		}
+	}
+
 	public void stat(String s){
 		String[] v=s.split("/");
 		int vn = v.length;
@@ -67,86 +120,6 @@ public class Ruta
 		}
 	}
 
-	public void mkdir(String e){
-		Directorio a = rutaActiva.getLast();
-		Directorio crear = new Directorio(e);
-		a.anyadir_elemento(crear);
-	}
-
-	public rm(String e){
-		if(e.substring(0,1).equals("/")){
-
-		}
-		else{
-			Directorio a = rutaActiva.getLast();
-			Elemento d = a.existe_name(e);
-		}
-		//akengew
-		if(d instanceof Directorio){
-
-		}
-		else if(d instanceof Archivo){
-
-		}
-		else if(d instanceof Enlace){
-
-		}
-	}
-
-	public String pwd() {
-		int n = rutaActiva.size();
-		String ruta= "/";
-		if(n>1) {
-			for(int i=1;i<=n;i++) {
-				Directorio dir=rutaActiva.get(i);
-				ruta=ruta + dir.getName() + "/";
-			 }
-		}
-		return ruta;
-	}
-
-
-	public void cd(String path) {
-		if(path != ".") {
-			if(path == "..") {
-				Directorio eliminar=rutaActiva.removeLast();
-			}
-			else if(path=="/") {
-				int n = rutaActiva.size();
-				rutaActiva.clear();
-			}else if(path.charAt(0) == '/'){	//Ruta completa
-				//Descomponemos path en un array de strings
-				String[] nueva_ruta = path.split("/");
-				int nDirectorios=nueva_ruta.length;
-				Directorio ultimo = rutaActiva.getFirst();
-				//Borramos la ruta activa para sustituirla por la nueva
-				rutaActiva.clear();
-				//Anyadimos raiz
-				rutaActiva.addFirst(ultimo); 
-				Elemento nuevo = ultimo.existe_name(nueva_ruta[1]);
-				int i=1;
-				//Compruebo que nuevo es un elemento
-				while( (nuevo != null) && (nuevo instanceof Directorio) && (i<nDirectorios)){
-					//Creo directorio nuevo
-					Directorio nuevo2 = (Directorio)nuevo;
-					rutaActiva.add(i,nuevo2);
-					i++;
-					ultimo=nuevo2;
-					//Creo otro directorio
-					nuevo = ultimo.existe_name(nueva_ruta[i]);
-				}
-			}else{		//Directorio nuevo
-				Directorio ultimo = rutaActiva.getLast();
-				Elemento nuevo = ultimo.existe_name(path);
-				if ((nuevo != null) && (nuevo instanceof Directorio)){
-					Directorio nuevo2 = (Directorio)nuevo;
-					rutaActiva.addLast(nuevo2);
-				}
-			}
-		}
-	}
-
-
 	public void vim (String file, int size){
 		//Extraigo directorio actual
 		Directorio actual = rutaActiva.getLast();
@@ -169,6 +142,12 @@ public class Ruta
 				archivo1.cambiar_tamanyo(size);
 			}
 		}
+	}
+
+	public void mkdir(String e){
+		Directorio a = rutaActiva.getLast();
+		Directorio crear = new Directorio(e);
+		a.anyadir_elemento(crear);
 	}
 
 	public void ln (String orig, String dest){
@@ -195,3 +174,4 @@ public class Ruta
 		}
 	}
 }
+

@@ -1,7 +1,7 @@
   
 //Similar a los includes de C++, traemos aquellas clases que nos seran utiles
-import java.util.NoSuchElementException;
-import java.lang.UnsupportedOperationException;
+import java.util.*;
+import java.lang.*;
 
 public class Archivo extends Elemento
 {
