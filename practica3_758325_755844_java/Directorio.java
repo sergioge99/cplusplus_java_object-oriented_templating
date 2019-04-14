@@ -18,18 +18,19 @@ public class Directorio extends Elemento
     
     public Elemento existe_name(String name){
         int n = contenido.size();
+        Elemento nuevo = null;
         int i=0;
         boolean encontrado = false;
         while(!encontrado && i < n){
-            Elemento nuevo = contenido.get(i);
+            nuevo = contenido.get(i);
             if(name.equals(nuevo.getName())){
                 encontrado=true;
             }else{
                 i++;
             }
         }
-        if(encontrado){ return nuevo;}
-        else{return null;}
+        if(!encontrado){ return null;}
+        else{return nuevo;}
     }
 
     public void anyadir_elemento(Elemento nuevo){

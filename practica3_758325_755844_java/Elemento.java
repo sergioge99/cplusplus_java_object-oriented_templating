@@ -3,9 +3,14 @@
 import java.util.NoSuchElementException;
 import java.lang.UnsupportedOperationException;
 
-interface Elemento{
-	public String nombre;
-    public int tamanyo;
+class Elemento{
+	String nombre;
+    int tamanyo;
+
+    public Elemento(String n){
+		nombre=n;
+		tamanyo=0;
+    }
     
 	public String getName(){return nombre;}
     public int getSize(){return tamanyo;}

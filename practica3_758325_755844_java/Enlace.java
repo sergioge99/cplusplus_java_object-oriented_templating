@@ -9,11 +9,13 @@ public class Enlace extends Elemento
 	public Enlace(String _nombre, Elemento nuevo){
         el_enlace = nuevo;
         this.nombre = _nombre;
+        this.tamanyo = nuevo.tamanyo;
     }
     
     public Elemento apunto_a_archivo(){
         if(el_enlace instanceof Enlace){
-            el_enlace.apunto_a_archivo();
+            Enlace enlace = (Enlace)el_enlace;
+            Elemento ayuda = enlace.apunto_a_archivo();
         }else{
             return Elemento;
         }
