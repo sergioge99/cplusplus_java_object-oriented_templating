@@ -31,4 +31,8 @@ public class Directorio extends Elemento
         if(encontrado){ return nuevo;}
         else{return null;}
     }
+
+    public void anyadir_elemento(Elemento nuevo){
+        contenido.addLast(nuevo);
+    }
 }
