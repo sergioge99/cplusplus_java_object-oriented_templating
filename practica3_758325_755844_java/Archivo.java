@@ -9,4 +9,8 @@ public class Archivo extends Elemento
 		nombre=n;
 		tamanyo=t;
 	}
+
+	public int getSize(){
+        return tamanyo;
+    }
 }

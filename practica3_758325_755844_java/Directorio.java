@@ -35,13 +35,19 @@ public class Directorio extends Elemento
         else{return nuevo;}
     }
 
+    public int getSize(){
+        int n = contenido.size();
+        int total = 0;
+        for (int i=0;i<n;i++){
+            Elemento nuevo = contenido.get(i);
+            total = total + nuevo.getSize();
+        }
+        return total;
+    }
+
     public void anyadir_elemento(Elemento nuevo){
         contenido.addLast(nuevo);
-    }
-    
-    public void sumar_tamanyo(int t){
-        tamanyo = tamanyo + t;
-    }
+	}
 	
 	public Boolean borrar_elemento(String name){
         int n = contenido.size();

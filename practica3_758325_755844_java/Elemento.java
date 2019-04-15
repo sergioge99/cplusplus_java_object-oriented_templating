@@ -3,7 +3,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Elemento{
+abstract class Elemento{
 	String nombre;
     int tamanyo;
     public Elemento(){
@@ -15,7 +15,7 @@ class Elemento{
     }
     
 	public String getName(){return nombre;}
-    public int getSize(){return tamanyo;}
+    public abstract int getSize();
     public void cambiar_tamanyo(int t){
         tamanyo = t;
     }
