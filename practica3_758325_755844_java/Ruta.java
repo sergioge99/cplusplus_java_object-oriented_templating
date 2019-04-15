@@ -171,33 +171,23 @@ public class Ruta
 			int n=la_ruta.length;
 			Directorio ultimo = rutaActiva.getFirst();
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
-			int i=0;
+			int i=1;
 			//Compruebo que nuevo es un elemento
-			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-2))){
+			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-1))){
 				i++;
 				Directorio nuevo2 = (Directorio)nuevo;
 				ultimo=nuevo2;
 				//Creo otro directorio
 				nuevo = ultimo.existe_name(la_ruta[i]);
 			}
-			if((nuevo != null) && (nuevo instanceof Directorio)){
-				ultimo.borrar_elemento(la_ruta[i+1]);
+			if(nuevo != null && n>1){
+				ultimo.borrar_elemento(la_ruta[i]);
 			}
 		}
 		else{
-			Directorio a = rutaActiva.getLast();
-			Elemento d = a.existe_name(e);
-			if(d instanceof Directorio){
-
-			}
-			else if(d instanceof Archivo){
-	
-			}
-			else if(d instanceof Enlace){
-				
-			}
+			Directorio ultimo = rutaActiva.getLast();
+			Elemento nuevo = ultimo.existe_name(e);
+			ultimo.borrar_elemento(e);
 		}
-		//akengew
-		
 	}
 }
