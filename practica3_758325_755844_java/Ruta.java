@@ -29,7 +29,7 @@ public class Ruta
 		}
 	}
 
-	public void cd(String path) throws ExcepcionNoExisteRuta{
+	public void cd(String path) throws ExcepcionNoExiste,ExcepcionNoEsDirectorio{
 		if(!path.equals(".")) {
 			if(path.equals("..") ) {
 				Directorio eliminar=rutaActiva.removeLast();
@@ -50,17 +50,19 @@ public class Ruta
 				Elemento nuevo = ultimo.existe_name(nueva_ruta[1]);
 				int i=1;
 				//Compruebo que nuevo es un elemento
-				while( (nuevo != null) && (nuevo instanceof Directorio) && (i<nDirectorios) ){
+				while( (nuevo != null) && (i<nDirectorios) ){
 					//Creo directorio nuevo
-					
-					nuevo = ultimo.existe_name(nueva_ruta[i]);
-					Directorio nuevo2 = (Directorio)nuevo;
-					rutaActiva.add(i,nuevo2);
-					
-					ultimo=nuevo2;
-					//Creo otro directorio
-					i++;
-					
+					if( nuevo instanceof Directorio ){
+						nuevo = ultimo.existe_name(nueva_ruta[i]);
+						Directorio nuevo2 = (Directorio)nuevo;
+						rutaActiva.add(i,nuevo2);
+						
+						ultimo=nuevo2;
+						//Creo otro directorio
+						i++;
+					}else{
+						throw new ExcepcionNoEsDirectorio();
+					}
 				}
 				if(nuevo == null){
 					throw new ExcepcionNoExisteRuta();
@@ -71,12 +73,16 @@ public class Ruta
 				if ((nuevo != null) && (nuevo instanceof Directorio)){
 					Directorio nuevo2 = (Directorio)nuevo;
 					rutaActiva.addLast(nuevo2);
+				}else if( nuevo == null ){
+					throw new ExcepcionNoExisteDirectorio();
+				}else{
+					throw new ExcepcionNoEsDirectorio();
 				}
 			}
 		}
 	}
 
-	public void stat(String element) throws ExcepcionBucle{
+	public void stat(String element) throws ExcepcionBucle, ExcepcionNoExiste{
 		if(element.charAt(0) == '/'){
 			String[] la_ruta = element.split("/");
 			int n=la_ruta.length;
@@ -84,12 +90,17 @@ public class Ruta
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
 			int i=1;
 			//Compruebo que nuevo es un elemento
-			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<n-1) ){
-				i++;
-				Directorio nuevo2 = (Directorio)nuevo;
-				ultimo=nuevo2;
-				//Creo otro directorio
-				nuevo = ultimo.existe_name(la_ruta[i]);
+			while( i<n-1 ){
+				if((nuevo != null) && (nuevo instanceof Directorio)){
+					i++;
+					Directorio nuevo2 = (Directorio)nuevo;
+					ultimo=nuevo2;
+					//Creo otro directorio
+					nuevo = ultimo.existe_name(la_ruta[i]);
+				}else{
+					throw new ExcepcionNoExisteRuta();
+				}
+				
 			}
 			if(nuevo != null && n>1){
 				System.out.print(nuevo.getSize(0));
@@ -104,6 +115,8 @@ public class Ruta
 			if(nuevo!=null){
 				System.out.print(nuevo.getSize(0));
 				System.out.println();
+			}else{
+				throw new ExcepcionNoExisteElemento();
 			}
 		}
 	}
