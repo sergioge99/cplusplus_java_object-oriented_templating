@@ -1,5 +1,3 @@
-  
-//Similar a los includes de C++, traemos aquellas clases que nos seran utiles
 import java.util.*;
 import java.lang.*;
 
@@ -10,7 +8,12 @@ public class Archivo extends Elemento
 		tamanyo=t;
 	}
 
-	public int getSize(){
-        return tamanyo;
+	public int getSize(int lvl)throws ExcepcionBucle {
+		if(lvl<20){
+			return tamanyo;
+		}
+        else{
+			throw new ExcepcionBucle();
+		}
     }
 }

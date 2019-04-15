@@ -35,14 +35,19 @@ public class Directorio extends Elemento
         else{return nuevo;}
     }
 
-    public int getSize(){
-        int n = contenido.size();
-        int total = 0;
-        for (int i=0;i<n;i++){
-            Elemento nuevo = contenido.get(i);
-            total = total + nuevo.getSize();
+    public int getSize(int lvl) throws ExcepcionBucle {
+        if(lvl<20){
+            int n = contenido.size();
+            int total = 0;
+            for (int i=0;i<n;i++){
+                Elemento nuevo = contenido.get(i);
+                total = total + nuevo.getSize(lvl+1);
+            }
+            return total;
         }
-        return total;
+        else{
+            throw new ExcepcionBucle();
+        }
     }
 
     public void anyadir_elemento(Elemento nuevo){

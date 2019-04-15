@@ -1,5 +1,3 @@
-
-//Similar a los includes de C++, traemos aquellas clases que nos seran utiles
 import java.util.*;
 import java.lang.*;
 
@@ -15,7 +13,7 @@ abstract class Elemento{
     }
     
 	public String getName(){return nombre;}
-    public abstract int getSize();
+    public abstract int getSize(int lvl) throws ExcepcionBucle ;
     public void cambiar_tamanyo(int t){
         tamanyo = t;
     }

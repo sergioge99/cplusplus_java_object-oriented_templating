@@ -29,7 +29,7 @@ public class Ruta
 		}
 	}
 
-	public void cd(String path) {
+	public void cd(String path) throws ExcepcionNoExisteRuta{
 		if(!path.equals(".")) {
 			if(path.equals("..") ) {
 				Directorio eliminar=rutaActiva.removeLast();
@@ -62,6 +62,9 @@ public class Ruta
 					i++;
 					
 				}
+				if(nuevo == null){
+					throw new ExcepcionNoExisteRuta();
+				}
 			}else{		//Directorio nuevo
 				Directorio ultimo = rutaActiva.getLast();
 				Elemento nuevo = ultimo.existe_name(path);
@@ -73,38 +76,33 @@ public class Ruta
 		}
 	}
 
-	public void stat(String element){
+	public void stat(String element) throws ExcepcionBucle{
 		if(element.charAt(0) == '/'){
-			//si es ruta completa
-			String[] la_ruta=element.split("/");
-			int n = la_ruta.length;
+			String[] la_ruta = element.split("/");
+			int n=la_ruta.length;
 			Directorio ultimo = rutaActiva.getFirst();
-			Elemento nuevo = ultimo.existe_name(la_ruta[0]);
-			boolean existe=true;
-			int i=0;
-			while(i<n && existe){
-				if(nuevo instanceof Directorio && nuevo!=null){
-					//si es directorio accedemos a el y buscamos la siguiente direccion de v
-					i++;
-					Directorio nuevo1 = (Directorio)nuevo;
-					ultimo=nuevo1;
-					nuevo = ultimo.existe_name(la_ruta[i]);
-				}
-				else{
-					existe=false;
-				}
+			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
+			int i=1;
+			//Compruebo que nuevo es un elemento
+			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<n-1) ){
+				i++;
+				Directorio nuevo2 = (Directorio)nuevo;
+				ultimo=nuevo2;
+				//Creo otro directorio
+				nuevo = ultimo.existe_name(la_ruta[i]);
 			}
-			if(existe){
-				System.out.print(ultimo.tamanyo);
+			if(nuevo != null && n>1){
+				System.out.print(nuevo.getSize(0));
 				System.out.println();
 			}
+
 		}
 		else{
 			//si es ruta parcial buscamos a partir de la carpeta actual
 			Directorio ultimo = rutaActiva.getLast();
 			Elemento nuevo = ultimo.existe_name(element);
 			if(nuevo!=null){
-				System.out.print(nuevo.getSize());
+				System.out.print(nuevo.getSize(0));
 				System.out.println();
 			}
 		}

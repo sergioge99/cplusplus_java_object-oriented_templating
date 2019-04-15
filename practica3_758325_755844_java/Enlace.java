@@ -1,5 +1,3 @@
-  
-//Similar a los includes de C++, traemos aquellas clases que nos seran utiles
 import java.util.*;
 import java.lang.*;
 
@@ -11,8 +9,14 @@ public class Enlace extends Elemento
         el_enlace = nuevo;
     }
     
-    public int getSize(){
-        return el_enlace.getSize();
+    public int getSize(int lvl) throws ExcepcionBucle {
+        if(lvl<20){
+            return el_enlace.getSize(lvl+1);
+        }
+        else{
+            throw new ExcepcionBucle();
+        }
+        
     }
 
     public Elemento apunto_a_archivo(){
