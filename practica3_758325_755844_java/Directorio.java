@@ -35,7 +35,7 @@ public class Directorio extends Elemento
         else{return nuevo;}
     }
 
-    public int getSize(int lvl) throws ExcepcionBucle {
+    public final int getSize(int lvl) throws ExcepcionBucle {
         if(lvl<20){
             int n = contenido.size();
             int total = 0;

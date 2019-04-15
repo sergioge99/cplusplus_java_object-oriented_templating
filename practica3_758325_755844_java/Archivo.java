@@ -8,7 +8,7 @@ public class Archivo extends Elemento
 		tamanyo=t;
 	}
 
-	public int getSize(int lvl)throws ExcepcionBucle {
+	public final int getSize(int lvl)throws ExcepcionBucle {
 		if(lvl<20){
 			return tamanyo;
 		}
