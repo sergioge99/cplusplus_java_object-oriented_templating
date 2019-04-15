@@ -127,6 +127,7 @@ public class Ruta
 			Elemento archivo2 = archivo1.apunto_a_archivo();
 			//El elemento apuntado por un enlace es un archivo
 			if( archivo2 instanceof Archivo ){
+				archivo2.cambiar_tamanyo(size);
 				archivo1.cambiar_tamanyo(size);
 			}
 		}
@@ -142,10 +143,10 @@ public class Ruta
 
 	public void ln (String orig, String dest){
 		//Ruta completa
-		if(dest.charAt(0) == '/'){
+		if(orig.charAt(0) == '/'){
 			String[] la_ruta = orig.split("/");
 			int n=la_ruta.length;
-			System.out.print(n);
+			//System.out.print(n);
 			Directorio ultimo = rutaActiva.getFirst();
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
 			int i=1;
@@ -171,23 +172,33 @@ public class Ruta
 			int n=la_ruta.length;
 			Directorio ultimo = rutaActiva.getFirst();
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
-			int i=1;
+			int i=0;
 			//Compruebo que nuevo es un elemento
-			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-1))){
+			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-2))){
 				i++;
 				Directorio nuevo2 = (Directorio)nuevo;
 				ultimo=nuevo2;
 				//Creo otro directorio
 				nuevo = ultimo.existe_name(la_ruta[i]);
 			}
-			if(nuevo != null && n>1){
-				ultimo.borrar_elemento(la_ruta[i]);
+			if((nuevo != null) && (nuevo instanceof Directorio)){
+				ultimo.borrar_elemento(la_ruta[i+1]);
 			}
 		}
 		else{
-			Directorio ultimo = rutaActiva.getLast();
-			Elemento nuevo = ultimo.existe_name(e);
-			ultimo.borrar_elemento(e);
+			Directorio a = rutaActiva.getLast();
+			Elemento d = a.existe_name(e);
+			if(d instanceof Directorio){
+
+			}
+			else if(d instanceof Archivo){
+	
+			}
+			else if(d instanceof Enlace){
+				
+			}
 		}
+		//akengew
+		
 	}
 }

@@ -37,7 +37,11 @@ public class Directorio extends Elemento
 
     public void anyadir_elemento(Elemento nuevo){
         contenido.addLast(nuevo);
-	}
+    }
+    
+    public void sumar_tamanyo(int t){
+        tamanyo = tamanyo + t;
+    }
 	
 	public Boolean borrar_elemento(String name){
         int n = contenido.size();

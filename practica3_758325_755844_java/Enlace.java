@@ -9,6 +9,7 @@ public class Enlace extends Elemento
 	public Enlace(String _nombre, Elemento nuevo){
         super(_nombre);
         el_enlace = nuevo;
+        this.tamanyo=el_enlace.getSize();
     }
     
     public Elemento apunto_a_archivo(){
