@@ -1,5 +1,3 @@
-
-//Similar a los includes de C++, traemos aquellas clases que nos seran utiles
 import java.util.LinkedList;
 import java.util.*;
 import java.lang.*;
@@ -39,5 +37,22 @@ public class Directorio extends Elemento
 
     public void anyadir_elemento(Elemento nuevo){
         contenido.addLast(nuevo);
+	}
+	
+	public Boolean borrar_elemento(String name){
+        int n = contenido.size();
+        Elemento nuevo = null;
+        int i=0;
+        boolean encontrado = false;
+        while(!encontrado && i < n){
+            nuevo = contenido.get(i);
+            if(name.equals(nuevo.getName())){
+				encontrado=true;
+				contenido.remove(i);
+            }else{
+                i++;
+            }
+        }
+        return encontrado;
     }
 }

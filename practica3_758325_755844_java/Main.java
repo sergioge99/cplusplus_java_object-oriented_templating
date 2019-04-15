@@ -11,7 +11,6 @@ class Main {
 
 		raiz = new Directorio("");
 		ruta = new Ruta(raiz);
-	
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	boolean end = false;
@@ -36,6 +35,8 @@ class Main {
 				ruta.mkdir(argv[1]);
 			} else if (argv[0].equals("ln")) {
 				ruta.ln(argv[1],argv[2]);
+			} else if (argv[0].equals("rm")) {
+				ruta.rm(argv[1]);
 			} else if (argv[0].equals("exit")) {
 				end = true;
 			} else {

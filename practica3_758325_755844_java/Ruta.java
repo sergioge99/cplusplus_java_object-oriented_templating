@@ -1,4 +1,3 @@
-//Similar a los includes de C++, traemos aquellas clases que nos seran utiles
 import java.util.*;
 import java.lang.*;
 
@@ -11,9 +10,9 @@ public class Ruta
 
 	public String pwd() {
 		int n = rutaActiva.size();
-		String ruta= "/";
-		if(n>1) {
-			for(int i=1;i<=n;i++) {
+		String ruta= "";
+		if(n>0) {
+			for(int i=0;i<n;i++) {
 				Directorio dir=rutaActiva.get(i);
 				ruta=ruta + dir.getName() + "/";
 			 }
@@ -51,14 +50,17 @@ public class Ruta
 				Elemento nuevo = ultimo.existe_name(nueva_ruta[1]);
 				int i=1;
 				//Compruebo que nuevo es un elemento
-				while( (nuevo != null) && (nuevo instanceof Directorio) && (i<nDirectorios)){
+				while( (nuevo != null) && (nuevo instanceof Directorio) && (i<nDirectorios) ){
 					//Creo directorio nuevo
+					
+					nuevo = ultimo.existe_name(nueva_ruta[i]);
 					Directorio nuevo2 = (Directorio)nuevo;
 					rutaActiva.add(i,nuevo2);
-					i++;
+					
 					ultimo=nuevo2;
 					//Creo otro directorio
-					nuevo = ultimo.existe_name(nueva_ruta[i]);
+					i++;
+					
 				}
 			}else{		//Directorio nuevo
 				Directorio ultimo = rutaActiva.getLast();
@@ -72,10 +74,10 @@ public class Ruta
 	}
 
 	public void stat(String s){
-		String[] v=s.split("/");
-		int vn = v.length;
 		if(s.substring(0,1).equals("/")){
 			//si es ruta parcial buscamos a partir de la carpeta raiz
+			String[] v=s.split("/");
+			int vn = v.length;
 			Directorio r = rutaActiva.getFirst();
 			Elemento d = r.existe_name(v[0]);
 			boolean existe=true;
@@ -94,29 +96,15 @@ public class Ruta
 			}
 			if(existe){
 				System.out.print(r.tamanyo);
+				System.out.println();
 			}
 		}
 		else{
 			//si es ruta parcial buscamos a partir de la carpeta actual
 			Directorio r = rutaActiva.getLast();
-			Elemento d = r.existe_name(v[0]);
-			boolean existe=true;
-			int i=0;
-			while(i<vn && existe){
-				if(d instanceof Directorio && d!=null){
-					//si es directorio accedemos a el y buscamos la siguiente direccion de v
-					i++;
-					Directorio r2 = (Directorio)d;
-					r=r2;
-					d = r.existe_name(v[i]);
-				}
-				else{
-					existe=false;
-				}
-			}
-			if(existe){
-				System.out.print(r.tamanyo);
-			}
+			Elemento d = r.existe_name(s);
+			System.out.print(d.tamanyo);
+			System.out.println();
 		}
 	}
 
@@ -145,9 +133,11 @@ public class Ruta
 	}
 
 	public void mkdir(String e){
-		Directorio a = rutaActiva.getLast();
-		Directorio crear = new Directorio(e);
-		a.anyadir_elemento(crear);
+		Directorio actual = rutaActiva.getLast();
+		if(actual.existe_name(e)==null){
+			Directorio nuevo = new Directorio(e);
+			actual.anyadir_elemento(nuevo);
+		}
 	}
 
 	public void ln (String orig, String dest){
@@ -155,6 +145,7 @@ public class Ruta
 		if(dest.charAt(0) == '/'){
 			String[] la_ruta = orig.split("/");
 			int n=la_ruta.length;
+			System.out.print(n);
 			Directorio ultimo = rutaActiva.getFirst();
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
 			int i=1;
@@ -173,5 +164,40 @@ public class Ruta
 			}
 		}
 	}
-}
+	public void rm(String e){
+		//Ruta completa
+		if(e.charAt(0) == '/'){
+			String[] la_ruta = e.split("/");
+			int n=la_ruta.length;
+			Directorio ultimo = rutaActiva.getFirst();
+			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
+			int i=0;
+			//Compruebo que nuevo es un elemento
+			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-2))){
+				i++;
+				Directorio nuevo2 = (Directorio)nuevo;
+				ultimo=nuevo2;
+				//Creo otro directorio
+				nuevo = ultimo.existe_name(la_ruta[i]);
+			}
+			if((nuevo != null) && (nuevo instanceof Directorio)){
+				ultimo.borrar_elemento(la_ruta[i+1]);
+			}
+		}
+		else{
+			Directorio a = rutaActiva.getLast();
+			Elemento d = a.existe_name(e);
+			if(d instanceof Directorio){
 
+			}
+			else if(d instanceof Archivo){
+	
+			}
+			else if(d instanceof Enlace){
+				
+			}
+		}
+		//akengew
+		
+	}
+}
