@@ -61,11 +61,8 @@ public class Ruta
 						//Creo otro directorio
 						i++;
 					}else{
-						throw new ExcepcionNoEsDirectorio();
+						throw new ExcepcionNoExisteRuta();
 					}
-				}
-				if(nuevo == null){
-					throw new ExcepcionNoExisteRuta();
 				}
 			}else{		//Directorio nuevo
 				Directorio ultimo = rutaActiva.getLast();
@@ -121,8 +118,11 @@ public class Ruta
 		}
 	}
 
-	public void vim (String file, int size){
+	public void vim (String file, int size) throws ExcepcionNoPermitido, ExcepcionElementoExistente{
 		//Extraigo directorio actual
+		if (file.charAt(0) == '/' ){
+			throw new ExcepcionRutaNoPermitida();
+		}
 		Directorio actual = rutaActiva.getLast();
 		Elemento archivo = actual.existe_name(file);
 		if ( archivo == null ){
@@ -142,18 +142,28 @@ public class Ruta
 			if( archivo2 instanceof Archivo ){
 				archivo1.cambiar_tamanyo(size);
 			}
+		}else{
+			throw new ExcepcionElementoExistente();
 		}
 	}
 
-	public void mkdir(String e){
+	public void mkdir(String dir) throws ExcepcionNoPermitido, ExcepcionElementoExistente{
+		if (dir.charAt(0) == '/' ){
+			throw new ExcepcionRutaNoPermitida();
+		}
 		Directorio actual = rutaActiva.getLast();
-		if(actual.existe_name(e)==null){
-			Directorio nuevo = new Directorio(e);
+		if(actual.existe_name(dir)==null){
+			Directorio nuevo = new Directorio(dir);
 			actual.anyadir_elemento(nuevo);
+		}else{
+			throw new ExcepcionElementoExistente();
 		}
 	}
 
-	public void ln (String orig, String dest){
+	public void ln (String orig, String dest) throws ExcepcionNoPermitido, ExcepcionNoExiste, ExcepcionElementoExistente{
+		if (dest.charAt(0) == '/' ){
+			throw new ExcepcionRutaNoPermitida();
+		}
 		//Ruta completa
 		if(orig.charAt(0) == '/'){
 			String[] la_ruta = orig.split("/");
@@ -163,21 +173,27 @@ public class Ruta
 			Elemento nuevo = ultimo.existe_name(la_ruta[1]);
 			int i=1;
 			//Compruebo que nuevo es un elemento
-			while( (nuevo != null) && (nuevo instanceof Directorio) && (i<(n-1))){
-				i++;
-				Directorio nuevo2 = (Directorio)nuevo;
-				ultimo=nuevo2;
-				//Creo otro directorio
-				nuevo = ultimo.existe_name(la_ruta[i]);
+			while( (nuevo != null) && (i<(n-1))){
+				if( nuevo instanceof Directorio ) {
+					i++;
+					Directorio nuevo2 = (Directorio)nuevo;
+					ultimo=nuevo2;
+					//Creo otro directorio
+					nuevo = ultimo.existe_name(la_ruta[i]);
+				}else{
+					throw new ExcepcionNoExisteRuta();
+				}
 			}
 			if(nuevo != null){
 				Enlace es_new = new Enlace(dest, nuevo);
 				Directorio actual = rutaActiva.getLast();
 				actual.anyadir_elemento(es_new);
+			}else{
+				throw new ExcepcionElementoExistente();
 			}
 		}
 	}
-	public void rm(String e){
+	public void rm(String e) throws ExcepcionNoExiste{
 		//Ruta completa
 		if(e.charAt(0) == '/'){
 			String[] la_ruta = e.split("/");
@@ -193,14 +209,21 @@ public class Ruta
 				//Creo otro directorio
 				nuevo = ultimo.existe_name(la_ruta[i]);
 			}
-			if(nuevo != null && n>1){
+			if(nuevo != null ){
 				ultimo.borrar_elemento(la_ruta[i]);
+			}else{
+				throw new ExcepcionNoExisteRuta();
 			}
 		}
 		else{
 			Directorio ultimo = rutaActiva.getLast();
 			Elemento nuevo = ultimo.existe_name(e);
-			ultimo.borrar_elemento(e);
+			if(null != nuevo){
+				ultimo.borrar_elemento(e);
+			}
+			else{
+				throw new ExcepcionNoExisteElemento();
+			}
 		}
 	}
 }
