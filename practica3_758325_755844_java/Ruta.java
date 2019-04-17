@@ -4,8 +4,13 @@ import java.lang.*;
 public class Ruta
 {
 	LinkedList<Directorio> rutaActiva = new LinkedList<Directorio>();
-	public Ruta(Directorio raiz){
-		rutaActiva.addFirst(raiz);
+	public Ruta(Directorio raiz)throws ExcepcionNoEsRaiz{
+		if(raiz.getName().equals("")){
+			rutaActiva.addFirst(raiz);
+		}
+		else{
+			throw new ExcepcionNoEsRaiz();
+		}
 	}
 
 	public String pwd() {
@@ -126,10 +131,16 @@ public class Ruta
 		Directorio actual = rutaActiva.getLast();
 		Elemento archivo = actual.existe_name(file);
 		if ( archivo == null ){
-			//No existe y por tanto lo creo
-			archivo = new Archivo(file, size);
-			//Lo situo en el directorio actual
-			actual.anyadir_elemento(archivo);
+			if(!file.matches("^[A-Za-z]+$")){
+				throw new ExcepcionNombreNoPermitido();
+			}
+			else{
+				//No existe y por tanto lo creo
+				archivo = new Archivo(file, size);
+				//Lo situo en el directorio actual
+				actual.anyadir_elemento(archivo);
+			}
+			
 		}
 		else if( archivo instanceof Archivo ){
 			//Cambiamos el tamanyo
@@ -153,8 +164,13 @@ public class Ruta
 		}
 		Directorio actual = rutaActiva.getLast();
 		if(actual.existe_name(dir)==null){
-			Directorio nuevo = new Directorio(dir);
-			actual.anyadir_elemento(nuevo);
+			if(!dir.matches("^[A-Za-z]+$")){
+				throw new ExcepcionNombreNoPermitido();
+			}
+			else{
+				Directorio nuevo = new Directorio(dir);
+				actual.anyadir_elemento(nuevo);
+			}
 		}else{
 			throw new ExcepcionElementoExistente();
 		}

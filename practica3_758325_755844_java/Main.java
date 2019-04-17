@@ -8,10 +8,10 @@ class Main {
    public static void main(String[] args) {
 	Directorio raiz;
 	Ruta ruta;
-	//try {
+	try {
 		raiz = new Directorio("");
 		ruta = new Ruta(raiz);
-	//} catch (ExcepcionArbolFicheros e) { return; }
+	} catch (ExcepcionArbolFicheros e) { return; }
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	boolean end = false;
